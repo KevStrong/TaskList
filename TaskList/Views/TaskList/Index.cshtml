@@ -1,47 +1,51 @@
 ﻿@model TaskList.Models.TaskListModel
-    <h2>To Do List</h2>
+<h2>To Do List</h2>
 
-    <div class="row align-items-center">
-        <div class="col-md-10 col-md-offset-1">
-        @using (Html.BeginForm("Create", "TaskList"))
-        {
-            @Html.AntiForgeryToken()
-            @Html.ValidationSummary(true)
+<div class="row align-items-center">
+    <div class="col-md-10 col-md-offset-1">
+    @using (Html.BeginForm("Create", "TaskList"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
  
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.TaskDescription, new{placeholder="Please specify the task details here."})
-                @Html.ValidationMessageFor(model => model.TaskDescription)
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.TaskDescription, new{placeholder="Please specify the task details here."})
+            @Html.ValidationMessageFor(model => model.TaskDescription)
+        </div>
+        <div class="col-md-2 text-right">
+            <input type="submit" value="Add Task" title="Add Task" class="btn btn-success" />
+        </div>
+    }
+    </div>
+</div>
+<div class="innerContainer whitesmokebackground">
+    @if (Model.Tasks == null || Model.Tasks.Count == 0){
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                There are no items in your task list
             </div>
-            <div class="col-md-2 text-right">
-                <input type="submit" value="Add Task" title="Add Task" class="btn btn-success" />
+        </div>
+    }
+    else
+    {    
+        foreach (var item in Model.Tasks) {
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-1 text-left">
+                        @Html.CheckBoxFor(m => item.TaskCompleted, new { checkfor = item.ID , title = "Mark as completed" })
+                    </div>
+                    <div class="col-md-9 text-left">
+                        <pre id="@(item.ID)">@Html.Raw(item.TaskDescription)</pre>
+                    </div>
+                    <div class="col-md-2 text-right">
+                        @Html.ActionLink("Remove", "Delete", new { id=item.ID },  new { @class="btn btn-danger" })
+                    </div>
+                </div>
             </div>
         }
-        </div>
-    </div>
-    <div class="innerContainer whitesmokebackground">
-            @if (Model.Tasks == null || Model.Tasks.Count == 0){
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        There are no items in your task list
-                    </div>
-                </div>
-            }
-            else
-            {    
-                foreach (var item in Model.Tasks) {
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <div class="col-md-1 text-left">
-                            @Html.CheckBoxFor(m => item.TaskCompleted)
-                        </div>
-                        <div class="col-md-9 text-left">
-                            <pre>@Html.Raw(item.TaskDescription)</pre>
-                        </div>
-                        <div class="col-md-2 text-right">
-                            @Html.ActionLink("Remove", "Delete", new { id=item.ID },  new { @class="btn btn-danger" })
-                        </div>
-                    </div>
-                </div>
-                }
-            }
-        </div>
+    }
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/tasklist")
+
+}

@@ -17,13 +17,10 @@
 textarea {
     width: 100%;
     padding: 5px;
-
 }
-
 .left-aligned {
     text-align: left;
 }
-
 .whitesmokebackground {
     background-color: whitesmoke;
     padding-top: 10px;
@@ -37,4 +34,7 @@ pre {
     font-size: 14px;
     line-height: 1.42857143;
     color: #333;
+}
+.strikeout{
+    text-decoration: line-through;
 }
