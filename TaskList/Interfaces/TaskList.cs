@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using TaskList.Models;
 
 namespace TaskList.Interfaces
@@ -8,7 +9,6 @@ namespace TaskList.Interfaces
     public class TaskList : ITaskList
     {
         public List<TaskDetailsModel> ListAllTaskDetails = new List<TaskDetailsModel>();
-        private static readonly Random GetRandomNumber = new Random();
 
         public List<TaskDetailsModel> GetAllTasks()
         {
@@ -23,28 +23,22 @@ namespace TaskList.Interfaces
             ListAllTaskDetails = GetAllTasks();
             int NextID;
 
-            try
-            {
-                if (ListAllTaskDetails == null || ListAllTaskDetails.Count == 0)
-                {
-                    NextID = 1;
-                }
-                else
-                {
-                    NextID = ListAllTaskDetails[ListAllTaskDetails.Count - 1].ID + 1;
-                }
-            }
-            catch
-            {
-                NextID = GetRandomNumber.Next(100, 999);
-            }
+            NextID = ListAllTaskDetails[ListAllTaskDetails.Count - 1].ID + 1;
+
             return NextID;
         }
 
-        public void Inserttask(TaskDetailsModel taskDetails)
+        public void Inserttask(int taskID, string taskDescription, bool taskCompleted)
         {
             ListAllTaskDetails = GetAllTasks();
-    
+
+            TaskDetailsModel taskDetails = new TaskDetailsModel
+            {
+                ID = taskID,
+                TaskDescription = HttpUtility.HtmlEncode(taskDescription),
+                TaskCompleted = taskCompleted
+            };
+
             ListAllTaskDetails.Add(taskDetails);
             System.Web.HttpContext.Current.Session["InMemoryTaskList"] = ListAllTaskDetails;
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using TaskList.Interfaces;
@@ -10,6 +11,7 @@ namespace TaskList.Controllers
     {
         public ITaskList tasklist;
         private List<TaskDetailsModel> ListAllTaskDetails = new List<TaskDetailsModel>();
+        private static readonly Random GetRandomNumber = new Random();
 
         public TaskListController()
         {
@@ -27,19 +29,18 @@ namespace TaskList.Controllers
         [HttpPost]
         public ActionResult Create(TaskListModel model)
         {
+            ListAllTaskDetails = tasklist.GetAllTasks();
             if (!ModelState.IsValid)
             {
-                model.Tasks = tasklist.GetAllTasks();
+                model.Tasks = ListAllTaskDetails;
                 return View("Index", model);
             }
 
-            TaskDetailsModel taskDetails = new TaskDetailsModel
-            {
-                ID = tasklist.GenerateNextIdNumber(),
-                TaskDescription = HttpUtility.HtmlEncode(model.TaskDescription),
-                TaskCompleted = false
-            };
-            tasklist.Inserttask(taskDetails);
+            int NextID = 1;
+            if (ListAllTaskDetails != null && ListAllTaskDetails.Count > 0)
+                NextID = tasklist.GenerateNextIdNumber();
+
+            tasklist.Inserttask(NextID, model.TaskDescription, false);
             return RedirectToAction("Index");
         }
 

@@ -7,7 +7,7 @@ namespace TaskList.Interfaces
     {
         List<TaskDetailsModel> GetAllTasks();
         int GenerateNextIdNumber();
-        void Inserttask(TaskDetailsModel taskDetails);
+        void Inserttask(int ID, string TaskDescription, bool TaskCompleted);
         void DeleteTask(int taskID);
     }
 }
