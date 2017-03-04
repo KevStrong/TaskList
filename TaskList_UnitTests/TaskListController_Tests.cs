@@ -237,5 +237,48 @@ namespace TaskList_UnitTests
             #endregion
         }
 
+        [TestMethod]
+        public void Update_Task_Success()
+        {
+            #region Arrange
+            List<TaskDetailsModel> mockTaskList = new List<TaskDetailsModel>();
+            TaskDetailsModel mockTaskDetails = new TaskDetailsModel
+            {
+                ID = 1,
+                TaskCompleted = false,
+                TaskDescription = HttpUtility.HtmlEncode("Mocked Task")
+            };
+            TaskDetailsModel mock2ndTaskDetails = new TaskDetailsModel
+            {
+                ID = 2,
+                TaskCompleted = false,
+                TaskDescription = HttpUtility.HtmlEncode("2nd Mocked Task")
+            };
+            TaskListModel mockTaskListModel = new TaskListModel();
+            mockTaskList.Add(mockTaskDetails);
+            mockTaskList.Add(mock2ndTaskDetails);
+            mockTaskListModel.Tasks = mockTaskList;
+
+            this.mockContext.SetupGet(x => x.Request).Returns(this.mockRequest.Object);
+            this.mockContext.SetupGet(x => x.Response).Returns(this.mockResponse.Object);
+            mockContext.Setup(x => x.Session["InMemoryTaskList"]).Returns(mockTaskListModel);
+            var mockControllerContext = new RequestContext(this.mockContext.Object, new RouteData());
+
+            TaskListController controller = new TaskListController();
+            controller.tasklist = mockTasklist.Object;
+            controller.ControllerContext = new ControllerContext(mockControllerContext, controller);
+            this.mockTasklist.Setup(c => c.UpdateTask(mockTaskDetails.ID, true));
+            #endregion
+
+            #region Act
+            var result = (JsonResult)controller.Update(mockTaskDetails.ID, true);
+            #endregion
+
+            #region Assert
+            this.mockTasklist.Verify(c => c.UpdateTask(mockTaskDetails.ID, true), Times.Once());
+            Assert.IsNotNull(result.Data);
+            #endregion
+        }
+
     }
 }

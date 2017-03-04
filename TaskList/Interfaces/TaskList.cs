@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using TaskList.Models;
@@ -12,8 +11,8 @@ namespace TaskList.Interfaces
 
         public List<TaskDetailsModel> GetAllTasks()
         {
-            if (System.Web.HttpContext.Current.Session["InMemoryTaskList"] != null)
-                ListAllTaskDetails = (List<TaskDetailsModel>)System.Web.HttpContext.Current.Session["InMemoryTaskList"];
+            if (HttpContext.Current.Session["InMemoryTaskList"] != null)
+                ListAllTaskDetails = (List<TaskDetailsModel>)HttpContext.Current.Session["InMemoryTaskList"];
 
             return ListAllTaskDetails;
         }
@@ -40,7 +39,7 @@ namespace TaskList.Interfaces
             };
 
             ListAllTaskDetails.Add(taskDetails);
-            System.Web.HttpContext.Current.Session["InMemoryTaskList"] = ListAllTaskDetails;
+            HttpContext.Current.Session["InMemoryTaskList"] = ListAllTaskDetails;
         }
 
         public void DeleteTask(int taskID)
@@ -51,7 +50,18 @@ namespace TaskList.Interfaces
             if (TaskItemToRemove != null)
                 ListAllTaskDetails.Remove(TaskItemToRemove);
 
-            System.Web.HttpContext.Current.Session["InMemoryTaskList"] = ListAllTaskDetails;
+            HttpContext.Current.Session["InMemoryTaskList"] = ListAllTaskDetails;
+        }
+
+        public void UpdateTask(int taskID, bool taskComplete)
+        {
+            ListAllTaskDetails = GetAllTasks();
+            TaskDetailsModel TaskItemToUpdate = ListAllTaskDetails.FirstOrDefault(x => x.ID == taskID);
+
+            if (TaskItemToUpdate != null)
+                TaskItemToUpdate.TaskCompleted = taskComplete;
+
+            HttpContext.Current.Session["InMemoryTaskList"] = ListAllTaskDetails;
         }
     }
 }

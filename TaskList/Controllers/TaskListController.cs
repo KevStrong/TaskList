@@ -49,5 +49,11 @@ namespace TaskList.Controllers
             tasklist.DeleteTask(id);
             return RedirectToAction("Index");
         }
+
+        public JsonResult Update(int id, bool markedComplete)
+        {
+            tasklist.UpdateTask(id, markedComplete);
+            return Json(new { success = "true" });
+        }
     }
 }

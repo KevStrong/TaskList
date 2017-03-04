@@ -9,5 +9,6 @@ namespace TaskList.Interfaces
         int GenerateNextIdNumber();
         void Inserttask(int ID, string TaskDescription, bool TaskCompleted);
         void DeleteTask(int taskID);
+        void UpdateTask(int taskID, bool taskComplete);
     }
 }
