@@ -167,7 +167,6 @@ C:\Users\user\Documents\GitHub\ToDoList\TaskList\bin\System.Web.Razor.xml
 C:\Users\user\Documents\GitHub\ToDoList\TaskList\bin\System.Web.WebPages.xml
 C:\Users\user\Documents\GitHub\ToDoList\TaskList\bin\System.Web.WebPages.Deployment.xml
 C:\Users\user\Documents\GitHub\ToDoList\TaskList\bin\System.Web.WebPages.Razor.xml
-C:\Users\user\Documents\GitHub\ToDoList\TaskList\obj\Debug\TaskList.csprojResolveAssemblyReference.cache
 C:\Users\user\Documents\GitHub\ToDoList\TaskList\obj\Debug\TaskList.dll
 C:\Users\user\Documents\GitHub\ToDoList\TaskList\obj\Debug\TaskList.pdb
 C:\Users\kstrong\Documents\GitHub\ToDoList\TaskList\obj\Debug\TaskList.csprojResolveAssemblyReference.cache

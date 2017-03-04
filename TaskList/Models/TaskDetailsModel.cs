@@ -1,11 +1,7 @@
-﻿using System;
-using System.Data;
-using System.Web.Mvc;
-using System.Configuration;
-using System.Data.SqlClient;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 
 namespace TaskList.Models
@@ -21,11 +17,7 @@ namespace TaskList.Models
 
         [DisplayName("Completed")]
         public bool TaskCompleted { get; set; }
-    }
 
-    
-    public class TaskListModel : TaskDetailsModel
-    {
-        public List<TaskDetailsModel> Tasks { get; set; }
+        public static List<TaskDetailsModel> Tasks = new List<TaskDetailsModel>();
     }   
 }

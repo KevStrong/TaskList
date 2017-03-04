@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Web;
 using System.Web.Mvc;
 using TaskList.Interfaces;
 using TaskList.Models;
@@ -10,7 +8,8 @@ namespace TaskList.Controllers
     public class TaskListController : Controller
     {
         public ITaskList tasklist;
-        private List<TaskDetailsModel> ListAllTaskDetails = new List<TaskDetailsModel>();
+        private TaskDetailsModel ListAllTaskDetails = new TaskDetailsModel();
+
         private static readonly Random GetRandomNumber = new Random();
 
         public TaskListController()
@@ -20,24 +19,19 @@ namespace TaskList.Controllers
 
         public ActionResult Index()
         {
-            TaskListModel modelTaskList = new TaskListModel();
-            modelTaskList.Tasks = tasklist.GetAllTasks();
-
-            return View(modelTaskList);
+            return View();
         }
 
         [HttpPost]
-        public ActionResult Create(TaskListModel model)
+        public ActionResult Create(TaskDetailsModel model)
         {
-            ListAllTaskDetails = tasklist.GetAllTasks();
             if (!ModelState.IsValid)
             {
-                model.Tasks = ListAllTaskDetails;
                 return View("Index", model);
             }
 
             int NextID = 1;
-            if (ListAllTaskDetails != null && ListAllTaskDetails.Count > 0)
+            if (TaskDetailsModel.Tasks != null && TaskDetailsModel.Tasks.Count > 0)
                 NextID = tasklist.GenerateNextIdNumber();
 
             tasklist.Inserttask(NextID, model.TaskDescription, false);
@@ -48,6 +42,12 @@ namespace TaskList.Controllers
         {
             tasklist.DeleteTask(id);
             return RedirectToAction("Index");
+        }
+
+        public JsonResult Update(int id, bool markedComplete)
+        {
+            tasklist.UpdateTask(id, markedComplete);
+            return Json(new { success = "true" });
         }
     }
 }

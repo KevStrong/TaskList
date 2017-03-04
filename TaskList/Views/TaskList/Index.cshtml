@@ -1,4 +1,4 @@
-﻿@model TaskList.Models.TaskListModel
+﻿@model TaskList.Models.TaskDetailsModel
 <h2>To Do List</h2>
 
 <div class="row align-items-center">
@@ -19,7 +19,7 @@
     </div>
 </div>
 <div class="innerContainer whitesmokebackground">
-    @if (Model.Tasks == null || Model.Tasks.Count == 0){
+    @if (@TaskList.Models.TaskDetailsModel.Tasks == null || @TaskList.Models.TaskDetailsModel.Tasks.Count == 0){
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 There are no items in your task list
@@ -28,7 +28,7 @@
     }
     else
     {
-        foreach (var item in Model.Tasks) {
+        foreach (var item in @TaskList.Models.TaskDetailsModel.Tasks) {
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
                     <div class="col-md-1 text-left">
